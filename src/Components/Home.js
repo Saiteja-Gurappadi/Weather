@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import mainbg from "../Images/BG1.jpg";
+import dayBG from "../Images/BG1.jpg";
+import eveningBG from '../Images/BG2.jpg';
+import nightBG from '../Images/BG3.jpg'
 import { CiSearch } from "react-icons/ci";
 import { WiCloud, WiHumidity } from "react-icons/wi";
 import { TbTemperatureCelsius } from "react-icons/tb";
@@ -21,7 +23,6 @@ const Home = () => {
       .then((res) => res.json())
       .then((result) => {
         setWeather(result);
-        console.log(weather);
       });
   };
 
@@ -42,13 +43,24 @@ const Home = () => {
     if (clouds <= 90) return "Mostly Cloudy";
     return "Overcast";
   };
+  const [bgChange,setBGChange] = useState(1);
   return (
     <div className="relative h-[100vh] w-[100%]">
-      <img
-        src={mainbg}
+      {bgChange == 1 && <img
+        src={dayBG}
         alt=""
         className="h-[100vh] w-[100%] blur-[0px] object-cover object-center"
-      />
+      />}
+      {bgChange == 2 && <img
+        src={eveningBG}
+        alt=""
+        className="h-[100vh] w-[100%] blur-[0px] object-cover object-center"
+      />}
+      {bgChange == 3 && <img
+        src={nightBG}
+        alt=""
+        className="h-[100vh] w-[100%] blur-[0px] object-cover object-center"
+      />}
       <div className=" flex absolute top-[2%] left-[25%]">
         <input
           type="text"
@@ -71,8 +83,9 @@ const Home = () => {
             <TimeFromLatLon
               latitude={weather?.coord?.lat}
               longitude={weather?.coord?.lon}
+              BGChange = {setBGChange}
             />
-            {console.log(weather?.coord?.lat)}
+            
           </div>
         </div>
         <div className="flex items-center justify-center">
