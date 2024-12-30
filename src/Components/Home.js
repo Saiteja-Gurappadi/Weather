@@ -6,6 +6,7 @@ import { TbTemperatureCelsius } from "react-icons/tb";
 import { FiSunrise, FiSunset } from "react-icons/fi";
 import { RiWindyFill } from "react-icons/ri";
 import { FaTemperatureHigh } from "react-icons/fa";
+import TimeFromLatLon from "./Date&Time";
 
 const Home = () => {
   const api = {
@@ -24,10 +25,9 @@ const Home = () => {
       });
   };
 
-  // useEffect(() => {
-  //   setSearch("Puttaparthi");
-  //   setTimeout(() => searchPressed(), 0);
-  // }, []);
+  useEffect(() => {
+    searchPressed();
+  }, []);
 
   const sunriseTimestamp = weather?.sys?.sunrise;
   const sunsetTimestamp = weather?.sys?.sunset;
@@ -62,16 +62,20 @@ const Home = () => {
         />
       </div>
       <div className="absolute top-[13%] left-[7%] rounded-lg w-[40%] h-[350px] flex flex-col justify-between shadow-2xl bg-transparent/5">
-        <div className="ml-[10px]">
+        <div className="mx-[10px] flex justify-between items-center">
           <h1 className="text-5xl text-white font-semibold font-sans">
             {weather.name}
             <span className="text-3xl">,{weather?.sys?.country}</span>
           </h1>
-          <p className="text-2xl text-white font-semibold mt-[18px]">
-            Wednesday 1 November
-          </p>
+          <div className="text-white text-xl font-normal flex items-center">
+            <TimeFromLatLon
+              latitude={weather?.coord?.lat}
+              longitude={weather?.coord?.lon}
+            />
+            {console.log(weather?.coord?.lat)}
+          </div>
         </div>
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-center">
           <WiCloud className="text-white text-[170px]" />
           <div className="text-white font-semibold">
             <p className="text-[45px] flex items-center">
@@ -79,38 +83,55 @@ const Home = () => {
               <TbTemperatureCelsius className="text-[40px]" />
             </p>
 
-            {/* <p className="text-2xl">{weather.weather.id}</p> */}
+            {/* <p className="text-3xl font-bolder">{weather.weather.id}</p> */}
           </div>
         </div>
-        <h1 className="absolute bottom-[6px] right-[120px] text-[25px] text-white font-bold">
+        <h1 className="absolute bottom-[6px] left-[180px] text-[25px] text-white font-bold">
           {renderCloudDescription(weather?.clouds?.all)}
         </h1>
       </div>
-      <div className="shadow-2xl h-[280px] w-[45%] absolute right-[20px] bg-transparent/5 top-[21%] rounded-lg flex flex-col p-[20px] justify-around ">
+      <div className="shadow-2xl h-[280px] w-[45%] absolute right-[20px] bg-black/15 top-[21%] rounded-lg flex flex-col p-[20px] justify-around text-white text-[25px] font-thin">
         <div className="flex items-center justify-around">
-          <p>
-            <span className="flex items-center"><WiHumidity /> Humidity 
-              </span>{weather?.main?.humidity}
+          <p className="flex flex-col items-center">
+            <span className="flex items-center">
+              <WiHumidity className="text-3xl font-bolder" /> Humidity
+            </span>
+            {weather?.main?.humidity}
           </p>
           <p className="flex flex-col">
             <span className="flex items-center">
-              Wind <RiWindyFill />
+              Wind <RiWindyFill className="text-3xl font-bolder" />
             </span>
             {weather?.wind?.speed}
           </p>
-          
+
           <p>
-            <FiSunrise />
+            <span className="flex items-center gap-[10px]">
+              Sunrise
+              <FiSunrise className="text-3xl font-bolder" />
+            </span>
+
             {convertToTime(sunriseTimestamp)}
           </p>
         </div>
         <div className="flex items-center justify-around">
-          <p className="flex flex-col"><span className="flex items-center"><FaTemperatureHigh />Feels Like
-          </span>{weather?.main?.feels_like}</p>
-          <p className="flex flex-col"><span>Sea Level
-            </span>{weather?.main?.sea_level}</p>
-          <p>
-            <FiSunset />
+          <p className="flex flex-col items-center">
+            <span className="flex items-center">
+              <FaTemperatureHigh className="text-3xl font-bolder" />
+              Feels Like
+            </span>
+            {weather?.main?.feels_like}
+          </p>
+          <p className="flex flex-col items-center">
+            <span>Sea Level</span>
+            {weather?.main?.sea_level}
+          </p>
+          <p className="">
+            <span className="flex items-center gap-[10px]">
+              Sunset
+              <FiSunset className="text-3xl font-bolder" />
+            </span>
+
             {convertToTime(sunsetTimestamp)}
           </p>
         </div>
