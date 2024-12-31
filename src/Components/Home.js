@@ -44,6 +44,11 @@ const Home = () => {
     return "Overcast";
   };
   const [bgChange,setBGChange] = useState(1);
+  console.log(
+    weather?.coord?.lat,
+              weather?.coord?.lon
+
+  )
   return (
     <div className="relative h-[100vh] w-[100%]">
       {bgChange == 1 && <img
@@ -84,6 +89,7 @@ const Home = () => {
               latitude={weather?.coord?.lat}
               longitude={weather?.coord?.lon}
               BGChange = {setBGChange}
+              setSearch = {setSearch}
             />
             
           </div>
