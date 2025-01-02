@@ -27,6 +27,7 @@ const TimeFromLatLon = ({ latitude, longitude, BGChange, setSearch }) => {
         setDay(data?.dayOfWeek);
         setDate(data?.date);
         setTimeZone(data?.timeZone);
+        console.log(data)
       } catch (error) {
         setError(error.message);
         console.error("Error fetching time data:", error);

@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from "react";
 import dayBG from "../Images/BG1.jpg";
-import eveningBG from '../Images/BG2.jpg';
-import nightBG from '../Images/BG3.jpg'
+import eveningBG from "../Images/BG2.jpg";
+import nightBG from "../Images/BG3.jpg";
 import { CiSearch } from "react-icons/ci";
-import { WiCloud, WiHumidity } from "react-icons/wi";
+import {
+  WiCloud,
+  WiCloudy,
+  WiDayCloudyHigh,
+  WiDayCloudyWindy,
+  WiDaySunny,
+  WiHumidity,
+} from "react-icons/wi";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { FiSunrise, FiSunset } from "react-icons/fi";
 import { RiWindyFill } from "react-icons/ri";
 import { FaTemperatureHigh } from "react-icons/fa";
 import TimeFromLatLon from "./Date&Time";
+import { LuCloudRainWind } from "react-icons/lu";
 
 const Home = () => {
+  const apiKey = process.env.REACT_APP_API_KEY;
+  const apibase = process.env.REACT_APP_API_BASE;
   const api = {
-    key: "59f86479b48512df06192c8043bba80e",
-    base: "https://api.openweathermap.org/data/2.5/",
+    key: apiKey,
+    base:  "https://api.openweathermap.org/data/2.5/",
   };
   const [search, setSearch] = useState("Puttaparthi");
   const [weather, setWeather] = useState({});
@@ -23,6 +33,7 @@ const Home = () => {
       .then((res) => res.json())
       .then((result) => {
         setWeather(result);
+        console.log(result);
       });
   };
 
@@ -43,29 +54,30 @@ const Home = () => {
     if (clouds <= 90) return "Mostly Cloudy";
     return "Overcast";
   };
-  const [bgChange,setBGChange] = useState(1);
-  console.log(
-    weather?.coord?.lat,
-              weather?.coord?.lon
-
-  )
+  const [bgChange, setBGChange] = useState(1);
   return (
     <div className="relative h-[100vh] w-[100%]">
-      {bgChange == 1 && <img
-        src={dayBG}
-        alt=""
-        className="h-[100vh] w-[100%] blur-[0px] object-cover object-center"
-      />}
-      {bgChange == 2 && <img
-        src={eveningBG}
-        alt=""
-        className="h-[100vh] w-[100%] blur-[0px] object-cover object-center"
-      />}
-      {bgChange == 3 && <img
-        src={nightBG}
-        alt=""
-        className="h-[100vh] w-[100%] blur-[0px] object-cover object-center"
-      />}
+      {bgChange == 1 && (
+        <img
+          src={dayBG}
+          alt=""
+          className="h-[100vh] w-[100%] blur-[0px] object-cover object-center"
+        />
+      )}
+      {bgChange == 2 && (
+        <img
+          src={eveningBG}
+          alt=""
+          className="h-[100vh] w-[100%] blur-[0px] object-cover object-center"
+        />
+      )}
+      {bgChange == 3 && (
+        <img
+          src={nightBG}
+          alt=""
+          className="h-[100vh] w-[100%] blur-[0px] object-cover object-center"
+        />
+      )}
       <div className=" flex absolute top-[2%] left-[25%]">
         <input
           type="text"
@@ -88,14 +100,18 @@ const Home = () => {
             <TimeFromLatLon
               latitude={weather?.coord?.lat}
               longitude={weather?.coord?.lon}
-              BGChange = {setBGChange}
-              setSearch = {setSearch}
+              BGChange={setBGChange}
+              setSearch={setSearch}
             />
-            
           </div>
         </div>
         <div className="flex items-center justify-center">
-          <WiCloud className="text-white text-[170px]" />
+          {<WiCloudy className="text-white text-[170px]" />}
+
+          {/* { <WiDayCloudyHigh className="text-white text-[170px]" />}
+          {<LuCloudRainWind  className="text-white text-[170px]"/>}
+          {<WiDayCloudyWindy className="text-white text-[170px]"/>}
+          <WiDaySunny className="text-white text-[170px]"/> */}
           <div className="text-white font-semibold">
             <p className="text-[45px] flex items-center">
               {Math.ceil(weather?.main?.temp)}
